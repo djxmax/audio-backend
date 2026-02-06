@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: music-db-local
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - music-network
+
+volumes:
+  mongo-data:
+
+networks:
+  music-network:
+    driver: bridge
