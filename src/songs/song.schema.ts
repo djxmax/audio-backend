@@ -10,6 +10,12 @@ export class Song extends Document {
   artist: string;
 
   @Prop()
+  album: string;
+
+  @Prop()
+  duration: number;   
+
+  @Prop()
   url: string;
 
   @Prop()
