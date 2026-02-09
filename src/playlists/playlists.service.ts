@@ -19,7 +19,7 @@ export class PlaylistsService {
   }
 
   async findAll() {
-    return this.playlistModel.find().exec();
+    return this.playlistModel.find().populate('songs').exec();
   }
 
   async search(query: string) {
@@ -63,5 +63,11 @@ export class PlaylistsService {
         { new: true },
       )
       .populate('songs');
+  }
+
+  async delete(id: string) {
+    const deletedPlaylist = await this.playlistModel.findByIdAndDelete(id);
+    if (!deletedPlaylist) throw new NotFoundException('Playlist introuvable');
+    return deletedPlaylist;
   }
 }

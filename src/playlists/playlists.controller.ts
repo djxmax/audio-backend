@@ -50,4 +50,9 @@ export class PlaylistsController {
   removeSong(@Param('id') id: string, @Param('songId') songId: string) {
     return this.playlistsService.removeSongFromPlaylist(id, songId);
   }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.playlistsService.delete(id);
+  }
 }
