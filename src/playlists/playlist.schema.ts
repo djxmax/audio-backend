@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @Schema({
   toJSON: {
@@ -11,27 +11,22 @@ import { Document } from 'mongoose';
       return ret;
     },
   },
+  timestamps: true,
 })
-export class Song extends Document {
+export class Playlist extends Document {
   id: string;
 
   @Prop({ required: true })
-  title: string;
-
-  @Prop({ required: true })
-  artist: string;
+  name: string;
 
   @Prop()
-  album: string;
-
-  @Prop()
-  duration: number;   
-
-  @Prop()
-  url: string;
+  description: string;
 
   @Prop()
   coverUrl: string;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Song' }] })
+  songs: Types.ObjectId[];
 }
 
-export const SongSchema = SchemaFactory.createForClass(Song);
+export const PlaylistSchema = SchemaFactory.createForClass(Playlist);

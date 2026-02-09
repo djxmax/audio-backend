@@ -1,25 +1,17 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SongsController } from './songs/songs.controller';
-import { SongsService } from './songs/songs.service';
-import { Song, SongSchema } from './songs/song.schema';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
+import { SongsModule } from './songs/song.module';
+import { PlaylistsModule } from './playlists/playlists.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
-    }),
-    MongooseModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-    }),
-    MongooseModule.forFeature([{ name: Song.name, schema: SongSchema }])
+    }), // Pour charger le .env
+    MongooseModule.forRoot(process.env.MONGODB_URI ?? ''),
+    SongsModule,    // On importe le bloc complet
+    PlaylistsModule // On importe le bloc complet
   ],
-  controllers: [SongsController],
-  providers: [SongsService],
 })
 export class AppModule {}
