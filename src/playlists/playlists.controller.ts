@@ -41,6 +41,19 @@ export class PlaylistsController {
     return this.playlistsService.findOne(id);
   }
 
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body()
+    updatePlaylistDto: {
+      name?: string;
+      description?: string;
+      coverUrl?: string;
+    },
+  ) {
+    return this.playlistsService.update(id, updatePlaylistDto);
+  }
+
   @Patch(':id/songs')
   addSong(@Param('id') id: string, @Body('songId') songId: string) {
     return this.playlistsService.addSongToPlaylist(id, songId);

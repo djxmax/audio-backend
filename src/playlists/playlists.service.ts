@@ -70,4 +70,20 @@ export class PlaylistsService {
     if (!deletedPlaylist) throw new NotFoundException('Playlist introuvable');
     return deletedPlaylist;
   }
+
+  async update(
+    id: string,
+    updatePlaylistDto: {
+      name?: string;
+      description?: string;
+      coverUrl?: string;
+    },
+  ) {
+    const updatedPlaylist = await this.playlistModel
+      .findByIdAndUpdate(id, updatePlaylistDto, { new: true })
+      .populate('songs');
+
+    if (!updatedPlaylist) throw new NotFoundException('Playlist introuvable');
+    return updatedPlaylist;
+  }
 }
